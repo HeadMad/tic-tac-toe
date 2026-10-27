@@ -63,6 +63,8 @@
     display: flex;
     flex-direction: column;
     padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
+    overflow: hidden;
+    min-height: 0;
   }
 
   .overlay {

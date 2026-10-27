@@ -133,10 +133,13 @@
   .start {
     display: flex;
     flex-direction: column;
-    height: 100%;
-    padding: 16px 0 20px;
+    flex: 1;
+    min-height: 0;
+    padding: 16px 0 24px;
     gap: 12px;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
   }
 
   .logo {
