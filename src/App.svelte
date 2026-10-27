@@ -57,15 +57,12 @@
   .app {
     position: relative;
     z-index: 1;
-    flex: 1;
-    min-height: 0;
     width: 100%;
     max-width: 480px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
     padding: env(safe-area-inset-top) 16px env(safe-area-inset-bottom);
-    overflow: hidden;
   }
 
   .overlay {

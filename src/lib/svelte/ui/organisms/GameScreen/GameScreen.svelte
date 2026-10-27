@@ -75,8 +75,7 @@
   .game {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 0;
+    min-height: 100dvh;
     padding: 12px 0 20px;
   }
 

@@ -133,13 +133,8 @@
   .start {
     display: flex;
     flex-direction: column;
-    flex: 1;
-    min-height: 0;
-    padding: 16px 0 24px;
+    padding: 16px 0 32px;
     gap: 12px;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-    overscroll-behavior: contain;
   }
 
   .logo {
