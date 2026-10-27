@@ -7,6 +7,7 @@
     getResult,
     getPlayerChar,
     getOpponentChar,
+    getFadingIndices,
     playMove
   } from '../../../state/game.svelte.js'
   import { getMode, getBoardSize } from '../../../state/settings.svelte.js'
@@ -19,6 +20,7 @@
   const opponentChar = $derived(getOpponentChar())
   const size = $derived(getBoardSize())
   const mode = $derived(getMode())
+  const fading = $derived(getFadingIndices())
 
   function emojiFor(mark) {
     if (mark === 'player') return playerChar?.emoji || ''
@@ -37,6 +39,7 @@
       {mark}
       emoji={emojiFor(mark)}
       isWin={result.line?.includes(i) ?? false}
+      isFading={fading.includes(i)}
       disabled={isDisabled(i)}
       onclick={() => playMove(i)}
     />

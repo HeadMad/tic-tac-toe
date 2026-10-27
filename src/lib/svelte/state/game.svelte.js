@@ -29,10 +29,23 @@ let playerQueue = $state([])
 let opponentQueue = $state([])
 let screen = $state('start') // start | game
 
+/** Макс. меток на игрока в vanishing-режиме */
 const MAX_MARKS = {
   3: 3,
   4: 4,
   5: 5
+}
+
+/** Длина линии для победы: при vanishing на 4×4 → 3, на 5×5 → 4 */
+function getWinLength() {
+  const size = getBoardSize()
+  if (getVanishing() && size >= 4) return size - 1
+  return size
+}
+
+function getMaxMarks() {
+  if (!getVanishing()) return 0
+  return MAX_MARKS[getBoardSize()] || getBoardSize()
 }
 
 function loadScores() {
@@ -111,6 +124,22 @@ export function backToStart() {
   result = { winner: null, line: null }
 }
 
+export function resetScores() {
+  scores = { player: 0, ai: 0 }
+  saveScores()
+}
+
+/** Новая игра: сброс счёта и возврат в меню настроек */
+export function newGame() {
+  resetScores()
+  board = []
+  playerQueue = []
+  opponentQueue = []
+  gameOver = false
+  result = { winner: null, line: null }
+  screen = 'start'
+}
+
 export function resetRound() {
   const size = getBoardSize()
   board = Array(size * size).fill(null)
@@ -122,8 +151,7 @@ export function resetRound() {
 }
 
 function applyMove(index, mark) {
-  const size = getBoardSize()
-  const max = getVanishing() ? MAX_MARKS[size] || size : 0
+  const max = getMaxMarks()
   const isPlayer = mark === 'player'
   const queue = isPlayer ? [...playerQueue] : [...opponentQueue]
 
@@ -142,6 +170,22 @@ function applyMove(index, mark) {
   else opponentQueue = queue
 }
 
+function evaluateBoard() {
+  const size = getBoardSize()
+  const lines = getWinLines(size, getWinLength())
+  return checkWinner(board, lines)
+}
+
+/** Индексы меток, которые исчезнут при следующем ходе своего игрока */
+export function getFadingIndices() {
+  if (!getVanishing()) return []
+  const max = getMaxMarks()
+  const fading = []
+  if (playerQueue.length >= max && max > 0) fading.push(playerQueue[0])
+  if (opponentQueue.length >= max && max > 0) fading.push(opponentQueue[0])
+  return fading
+}
+
 export function playMove(index) {
   if (gameOver || board[index] !== null) return
   if (getMode() === 'ai' && current !== 'player') return
@@ -150,10 +194,7 @@ export function playMove(index) {
   const mark = current === 'player' ? 'player' : current === 'player2' ? 'player2' : 'ai'
   applyMove(index, mark)
 
-  const size = getBoardSize()
-  const lines = getWinLines(size)
-  const res = checkWinner(board, lines)
-
+  const res = evaluateBoard()
   if (res.winner) {
     endRound(res)
     return
@@ -170,7 +211,7 @@ export function playMove(index) {
 function aiTurn() {
   if (gameOver) return
   const size = getBoardSize()
-  const max = getVanishing() ? MAX_MARKS[size] || size : 0
+  const max = getMaxMarks()
   const move = getAiMove(
     board,
     size,
@@ -178,12 +219,12 @@ function aiTurn() {
     'player',
     playerQueue,
     opponentQueue,
-    max
+    max,
+    getWinLength()
   )
   if (move >= 0 && board[move] === null) {
     applyMove(move, 'ai')
-    const lines = getWinLines(size)
-    const res = checkWinner(board, lines)
+    const res = evaluateBoard()
     if (res.winner) {
       endRound(res)
       return

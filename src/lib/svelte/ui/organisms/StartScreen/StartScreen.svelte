@@ -120,7 +120,10 @@
       >Исчезающие ходы</button>
     </div>
     {#if vanishing}
-      <p class="hint">Старые ходы исчезают (макс. {boardSize} на игрока)</p>
+      <p class="hint">
+        Макс. {boardSize} меток на игрока. Победа:
+        {boardSize >= 4 ? boardSize - 1 : boardSize} в ряд
+      </p>
     {/if}
   </div>
 

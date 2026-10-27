@@ -12,8 +12,8 @@ import getWinLines from '../getWinLines/index.js'
  * @param {number} [maxMarks]
  * @returns {number}
  */
-export default function getAiMove(board, size, aiMark = 'ai', humanMark = 'player', playerQueue = null, aiQueue = null, maxMarks = 0) {
-  const lines = getWinLines(size)
+export default function getAiMove(board, size, aiMark = 'ai', humanMark = 'player', playerQueue = null, aiQueue = null, maxMarks = 0, winLength = size) {
+  const lines = getWinLines(size, winLength)
   const empties = board.map((v, i) => (v === null ? i : -1)).filter((i) => i >= 0)
   if (empties.length === 0) return -1
 

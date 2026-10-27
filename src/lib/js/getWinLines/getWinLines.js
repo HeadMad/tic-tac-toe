@@ -1,30 +1,48 @@
 /**
- * Генерирует все выигрышные линии для доски size x size.
- * Для n=3/4/5 нужна линия длины n.
+ * Генерирует все выигрышные линии для доски size x size длины winLength.
  * @param {number} size
+ * @param {number} [winLength]
  * @returns {number[][]}
  */
-export default function getWinLines(size) {
+export default function getWinLines(size, winLength = size) {
   const lines = []
+  const need = Math.min(winLength, size)
+
   // rows
   for (let r = 0; r < size; r++) {
-    const row = []
-    for (let c = 0; c < size; c++) row.push(r * size + c)
-    lines.push(row)
+    for (let c = 0; c <= size - need; c++) {
+      const line = []
+      for (let k = 0; k < need; k++) line.push(r * size + (c + k))
+      lines.push(line)
+    }
   }
+
   // cols
   for (let c = 0; c < size; c++) {
-    const col = []
-    for (let r = 0; r < size; r++) col.push(r * size + c)
-    lines.push(col)
+    for (let r = 0; r <= size - need; r++) {
+      const line = []
+      for (let k = 0; k < need; k++) line.push((r + k) * size + c)
+      lines.push(line)
+    }
   }
-  // main diag
-  const main = []
-  for (let i = 0; i < size; i++) main.push(i * size + i)
-  lines.push(main)
-  // anti diag
-  const anti = []
-  for (let i = 0; i < size; i++) anti.push(i * size + (size - 1 - i))
-  lines.push(anti)
+
+  // diagonals ↘
+  for (let r = 0; r <= size - need; r++) {
+    for (let c = 0; c <= size - need; c++) {
+      const line = []
+      for (let k = 0; k < need; k++) line.push((r + k) * size + (c + k))
+      lines.push(line)
+    }
+  }
+
+  // diagonals ↙
+  for (let r = 0; r <= size - need; r++) {
+    for (let c = need - 1; c < size; c++) {
+      const line = []
+      for (let k = 0; k < need; k++) line.push((r + k) * size + (c - k))
+      lines.push(line)
+    }
+  }
+
   return lines
 }

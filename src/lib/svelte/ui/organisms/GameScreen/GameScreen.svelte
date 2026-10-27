@@ -9,7 +9,9 @@
     getGameOver,
     getResult,
     backToStart,
-    resetRound
+    resetRound,
+    newGame,
+    resetScores
   } from '../../../state/game.svelte.js'
   import { getMode, getBoardSize, getVanishing } from '../../../state/settings.svelte.js'
 
@@ -56,7 +58,7 @@
       <span class="score__char">{opponentChar?.emoji}</span>
     </div>
     <div class="badge">
-      {size}×{size}{vanishing ? ' · ∅' : ''}
+      {size}×{size}{vanishing ? ` · ∅${size >= 4 ? size - 1 : size}` : ''}
     </div>
   </header>
 
@@ -68,6 +70,8 @@
 
   <div class="actions">
     <Button variant="secondary" onclick={resetRound}>Новый раунд</Button>
+    <Button variant="secondary" onclick={resetScores}>Сброс счёта</Button>
+    <Button variant="secondary" onclick={newGame}>Новая игра</Button>
   </div>
 </section>
 
@@ -168,11 +172,14 @@
 
   .actions {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
+    gap: 8px;
     margin-top: 14px;
   }
 
   .actions :global(.btn) {
-    min-width: 150px;
+    min-width: 120px;
+    flex: 1 1 auto;
   }
 </style>

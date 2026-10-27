@@ -4,6 +4,7 @@
    * @property {string | null} mark
    * @property {string} [emoji]
    * @property {boolean} [isWin]
+   * @property {boolean} [isFading]
    * @property {boolean} [disabled]
    * @property {() => void} [onclick]
    */
@@ -13,6 +14,7 @@
     mark = null,
     emoji = '',
     isWin = false,
+    isFading = false,
     disabled = false,
     onclick
   } = $props()
@@ -22,6 +24,7 @@
   class="cell"
   class:cell_filled={!!mark}
   class:cell_win={isWin}
+  class:cell_fading={isFading}
   class:cell_disabled={disabled}
   {disabled}
   {onclick}
@@ -71,6 +74,16 @@
     animation: pulse-win 0.6s ease;
   }
 
+  .cell_fading .cell__mark {
+    opacity: 0.35;
+    filter: grayscale(0.4);
+  }
+
+  .cell_fading {
+    border-style: dashed;
+    border-color: color-mix(in srgb, var(--text-muted) 50%, transparent);
+  }
+
   .cell__mark {
     font-size: clamp(1.6rem, 8vw, 2.8rem);
     line-height: 1;
@@ -79,6 +92,7 @@
     width: 1.2em;
     height: 1.2em;
     text-align: center;
+    transition: opacity 0.25s ease, filter 0.25s ease;
   }
 
   @keyframes pop {
