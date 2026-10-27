@@ -1,0 +1,16 @@
+[data-theme='dark'] {
+  --bg: #0b0b14;
+  --bg-card: rgba(22, 22, 36, 0.78);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #f0f0f5;
+  --text-muted: #9898b0;
+  --accent: #7c5cff;
+  --accent-2: #00e5c0;
+  --player: #7c5cff;
+  --ai: #ff5c8a;
+  --win: #00e5c0;
+  --danger: #ff5c8a;
+  --orb-1: #7c5cff;
+  --orb-2: #00e5c0;
+  --orb-3: #ff5c8a;
+}

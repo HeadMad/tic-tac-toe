@@ -1,0 +1,70 @@
+@import '../tokens/tokens.css';
+@import '../resets/resets.css';
+@import '../themes/dark.css';
+@import '../themes/light.css';
+
+.bg-orbs {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.32;
+  transition: background 0.4s ease;
+}
+
+.orb-1 {
+  width: 420px;
+  height: 420px;
+  background: var(--orb-1);
+  top: -120px;
+  left: -100px;
+  animation: float 18s ease-in-out infinite;
+}
+
+.orb-2 {
+  width: 360px;
+  height: 360px;
+  background: var(--orb-2);
+  bottom: -80px;
+  right: -80px;
+  animation: float 22s ease-in-out infinite reverse;
+}
+
+.orb-3 {
+  width: 280px;
+  height: 280px;
+  background: var(--orb-3);
+  top: 40%;
+  left: 50%;
+  transform: translateX(-50%);
+  animation: float 15s ease-in-out infinite 2s;
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+  66% {
+    transform: translate(-20px, 15px) scale(0.95);
+  }
+}
+
+.glass {
+  background: var(--bg-card);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
